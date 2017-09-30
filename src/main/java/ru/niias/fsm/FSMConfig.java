@@ -25,6 +25,7 @@ public class FSMConfig extends EnumStateMachineConfigurerAdapter<States, Events>
                 .states(EnumSet.allOf(States.class));
 
     }
+    //Создание перходов из одного состояния в другое
     @Override
     public void configure(StateMachineTransitionConfigurer<States, Events> transitions) throws Exception {
         transitions
