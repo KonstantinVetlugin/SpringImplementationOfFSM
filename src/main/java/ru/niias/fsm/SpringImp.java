@@ -1,0 +1,391 @@
+package ru.niias.fsm;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.StaticListableBeanFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.annotation.OnTransition;
+import org.springframework.statemachine.annotation.WithStateMachine;
+import org.springframework.statemachine.config.EnableStateMachine;
+import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
+import org.springframework.statemachine.config.StateMachineBuilder;
+import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
+import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+
+import java.util.EnumSet;
+
+public class SpringImp{
+
+    @Configuration
+    @EnableStateMachine
+    public class FSMConfig extends EnumStateMachineConfigurerAdapter<States, Events>
+    {
+        @Override
+        public void configure(StateMachineStateConfigurer<States, Events> states) throws Exception {
+            states
+                    .withStates()
+                    .initial(States.INIT)
+                    .states(EnumSet.allOf(States.class));
+
+        }
+        //Создание переходов из одного состояния в другое
+        @Override
+        public void configure(StateMachineTransitionConfigurer<States, Events> transitions) throws Exception {
+            transitions
+                    .withExternal()
+                    .source(States.INIT)
+                    .target(States.REQUEST)
+                    .event(Events.REQUEST)
+                    .and()
+                    .withExternal()
+                    .source(States.INIT)
+                    .target(States.FORM_UPDATED)
+                    .event(Events.UPDATE)
+                    .and()
+
+                    .withExternal()
+                    .source(States.REQUEST)
+                    .target(States.FORM_UPDATED)
+                    .event(Events.UPDATE)
+                    .and()
+                    .withExternal()
+                    .source(States.REQUEST)
+                    .target(States.REQUEST)
+                    .event(Events.TIMER)
+                    .and()
+                    .withExternal()
+                    .source(States.REQUEST)
+                    .target(States.INIT)
+                    .event(Events.FINISH)
+                    .and()
+
+                    .withExternal()
+                    .source(States.FORM_UPDATED)
+                    .target(States.FORM_UPDATED)
+                    .event(Events.TIMER)
+                    .and()
+                    .withExternal()
+                    .source(States.FORM_UPDATED)
+                    .target(States.REQUEST)
+                    .event(Events.REQUEST)
+                    .and()
+                    .withExternal()
+                    .source(States.FORM_UPDATED)
+                    .target(States.CONFIRMED)
+                    .event(Events.LOAD_AND_CONFIRM)
+                    .and()
+                    .withExternal()
+                    .source(States.FORM_UPDATED)
+                    .target(States.LOADED)
+                    .event(Events.LOAD)
+                    .and()
+                    .withExternal()
+                    .source(States.FORM_UPDATED)
+                    .target(States.LOAD_ERROR)
+                    .event(Events.LOAD_ERROR)
+                    .and()
+                    .withExternal()
+                    .source(States.FORM_UPDATED)
+                    .target(States.INIT)
+                    .event(Events.FINISH)
+                    .and()
+
+                    .withExternal()
+                    .source(States.LOADED)
+                    .target(States.LOADED)
+                    .event(Events.TIMER)
+                    .and()
+                    .withExternal()
+                    .source(States.LOADED)
+                    .target(States.REQUEST)
+                    .event(Events.REQUEST)
+                    .and()
+                    .withExternal()
+                    .source(States.LOADED)
+                    .target(States.CONFIRMED)
+                    .event(Events.CONFIRM)
+                    .and()
+                    .withExternal()
+                    .source(States.LOADED)
+                    .target(States.CONFIRM_ERROR)
+                    .event(Events.CONFIRM_ERROR)
+                    .and()
+                    .withExternal()
+                    .source(States.LOADED)
+                    .target(States.FORM_UPDATED)
+                    .event(Events.UPDATE)
+                    .and()
+                    .withExternal()
+                    .source(States.LOADED)
+                    .target(States.FINISHED)
+                    .event(Events.FINISH)
+                    .and()
+
+                    .withExternal()
+                    .source(States.LOAD_ERROR)
+                    .target(States.LOADED)
+                    .event(Events.LOAD)
+                    .and()
+                    .withExternal()
+                    .source(States.LOAD_ERROR)
+                    .target(States.REQUEST)
+                    .event(Events.REQUEST)
+                    .and()
+                    .withExternal()
+                    .source(States.LOAD_ERROR)
+                    .target(States.INIT)
+                    .event(Events.FINISH)
+                    .and()
+                    .withExternal()
+                    .source(States.LOAD_ERROR)
+                    .target(States.FORM_UPDATED)
+                    .event(Events.UPDATE)
+                    .and()
+
+                    .withExternal()
+                    .source(States.CONFIRMED)
+                    .target(States.CONFIRMED)
+                    .event(Events.TIMER)
+                    .and()
+                    .withExternal()
+                    .source(States.CONFIRMED)
+                    .target(States.REQUEST)
+                    .event(Events.REQUEST)
+                    .and()
+                    .withExternal()
+                    .source(States.CONFIRMED)
+                    .target(States.FINISHED)
+                    .event(Events.FINISH)
+                    .and()
+                    .withExternal()
+                    .source(States.CONFIRMED)
+                    .target(States.FORM_UPDATED)
+                    .event(Events.UPDATE)
+                    .and()
+
+                    .withExternal()
+                    .source(States.CONFIRM_ERROR)
+                    .target(States.REQUEST)
+                    .event(Events.REQUEST)
+                    .and()
+                    .withExternal()
+                    .source(States.CONFIRM_ERROR)
+                    .target(States.FINISHED)
+                    .event(Events.FINISH)
+                    .and()
+                    .withExternal()
+                    .source(States.CONFIRM_ERROR)
+                    .target(States.FORM_UPDATED)
+                    .event(Events.UPDATE)
+                    .and()
+
+                    .withExternal()
+                    .source(States.FINISHED)
+                    .target(States.FINISHED)
+                    .event(Events.TIMER)
+                    .and()
+                    .withExternal()
+                    .source(States.FINISHED)
+                    .target(States.REQUEST)
+                    .event(Events.REQUEST)
+                    .and()
+                    .withExternal()
+                    .source(States.FINISHED)
+                    .target(States.FORM_UPDATED)
+                    .event(Events.UPDATE);
+        }
+    }
+
+    public StateMachine<States, Events> buildMachine() throws Exception {
+        StateMachineBuilder.Builder<States, Events> builder = StateMachineBuilder.builder();
+        builder.configureStates()
+                .withStates()
+                .initial(States.INIT)
+                .states(EnumSet.allOf(States.class));
+        builder.configureTransitions()
+                .withExternal()
+                .source(States.INIT)
+                .target(States.REQUEST)
+                .event(Events.REQUEST)
+                .and()
+                .withExternal()
+                .source(States.INIT)
+                .target(States.FORM_UPDATED)
+                .event(Events.UPDATE)
+                .and()
+
+                .withExternal()
+                .source(States.REQUEST)
+                .target(States.FORM_UPDATED)
+                .event(Events.UPDATE)
+                .and()
+                .withExternal()
+                .source(States.REQUEST)
+                .target(States.REQUEST)
+                .event(Events.TIMER)
+                .and()
+                .withExternal()
+                .source(States.REQUEST)
+                .target(States.INIT)
+                .event(Events.FINISH)
+                .and()
+
+                .withExternal()
+                .source(States.FORM_UPDATED)
+                .target(States.FORM_UPDATED)
+                .event(Events.TIMER)
+                .and()
+                .withExternal()
+                .source(States.FORM_UPDATED)
+                .target(States.REQUEST)
+                .event(Events.REQUEST)
+                .and()
+                .withExternal()
+                .source(States.FORM_UPDATED)
+                .target(States.CONFIRMED)
+                .event(Events.LOAD_AND_CONFIRM)
+                .and()
+                .withExternal()
+                .source(States.FORM_UPDATED)
+                .target(States.LOADED)
+                .event(Events.LOAD)
+                .and()
+                .withExternal()
+                .source(States.FORM_UPDATED)
+                .target(States.LOAD_ERROR)
+                .event(Events.LOAD_ERROR)
+                .and()
+                .withExternal()
+                .source(States.FORM_UPDATED)
+                .target(States.INIT)
+                .event(Events.FINISH)
+                .and()
+
+                .withExternal()
+                .source(States.LOADED)
+                .target(States.LOADED)
+                .event(Events.TIMER)
+                .and()
+                .withExternal()
+                .source(States.LOADED)
+                .target(States.REQUEST)
+                .event(Events.REQUEST)
+                .and()
+                .withExternal()
+                .source(States.LOADED)
+                .target(States.CONFIRMED)
+                .event(Events.CONFIRM)
+                .and()
+                .withExternal()
+                .source(States.LOADED)
+                .target(States.CONFIRM_ERROR)
+                .event(Events.CONFIRM_ERROR)
+                .and()
+                .withExternal()
+                .source(States.LOADED)
+                .target(States.FORM_UPDATED)
+                .event(Events.UPDATE)
+                .and()
+                .withExternal()
+                .source(States.LOADED)
+                .target(States.FINISHED)
+                .event(Events.FINISH)
+                .and()
+
+                .withExternal()
+                .source(States.LOAD_ERROR)
+                .target(States.LOADED)
+                .event(Events.LOAD)
+                .and()
+                .withExternal()
+                .source(States.LOAD_ERROR)
+                .target(States.REQUEST)
+                .event(Events.REQUEST)
+                .and()
+                .withExternal()
+                .source(States.LOAD_ERROR)
+                .target(States.INIT)
+                .event(Events.FINISH)
+                .and()
+                .withExternal()
+                .source(States.LOAD_ERROR)
+                .target(States.FORM_UPDATED)
+                .event(Events.UPDATE)
+                .and()
+
+                .withExternal()
+                .source(States.CONFIRMED)
+                .target(States.CONFIRMED)
+                .event(Events.TIMER)
+                .and()
+                .withExternal()
+                .source(States.CONFIRMED)
+                .target(States.REQUEST)
+                .event(Events.REQUEST)
+                .and()
+                .withExternal()
+                .source(States.CONFIRMED)
+                .target(States.FINISHED)
+                .event(Events.FINISH)
+                .and()
+                .withExternal()
+                .source(States.CONFIRMED)
+                .target(States.FORM_UPDATED)
+                .event(Events.UPDATE)
+                .and()
+
+                .withExternal()
+                .source(States.CONFIRM_ERROR)
+                .target(States.REQUEST)
+                .event(Events.REQUEST)
+                .and()
+                .withExternal()
+                .source(States.CONFIRM_ERROR)
+                .target(States.FINISHED)
+                .event(Events.FINISH)
+                .and()
+                .withExternal()
+                .source(States.CONFIRM_ERROR)
+                .target(States.FORM_UPDATED)
+                .event(Events.UPDATE)
+                .and()
+
+                .withExternal()
+                .source(States.FINISHED)
+                .target(States.FINISHED)
+                .event(Events.TIMER)
+                .and()
+                .withExternal()
+                .source(States.FINISHED)
+                .target(States.REQUEST)
+                .event(Events.REQUEST)
+                .and()
+                .withExternal()
+                .source(States.FINISHED)
+                .target(States.FORM_UPDATED)
+                .event(Events.UPDATE);
+        builder.configureConfiguration().withConfiguration().beanFactory(new StaticListableBeanFactory());
+        return builder.build();
+    }
+  /*  @WithStateMachine
+    public class MyBean {
+
+        @OnTransition(target = "INIT")
+        void toState1() {
+        }
+
+        @OnTransition(target = "REQUEST")
+        void toState2() {
+        }
+    }
+    public class MyApp {
+
+        @Autowired
+        StateMachine<States, Events> stateMachine;
+
+        void doSignals() {
+            stateMachine.sendEvent(Events.FINISH);
+            stateMachine.sendEvent(Events.REQUEST);
+        }
+    }*/
+}
