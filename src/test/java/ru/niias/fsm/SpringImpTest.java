@@ -20,8 +20,6 @@ public class SpringImpTest
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.INIT));
         stateMachine.sendEvent(Events.REQUEST);
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.REQUEST));
-        stateMachine.sendEvent(Events.TIMER);
-        assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.REQUEST));
         stateMachine.sendEvent(Events.FINISH);
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.INIT));
         stateMachine.sendEvent(Events.UPDATE);
@@ -30,8 +28,6 @@ public class SpringImpTest
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.REQUEST));
         stateMachine.sendEvent(Events.UPDATE);
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.FORM_UPDATED));
-        stateMachine.sendEvent(Events.TIMER);
-        assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.FORM_UPDATED));
         stateMachine.sendEvent(Events.LOAD_ERROR);
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.LOAD_ERROR));
         stateMachine.sendEvent(Events.LOAD);
@@ -39,8 +35,6 @@ public class SpringImpTest
         stateMachine.sendEvent(Events.UPDATE);
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.FORM_UPDATED));
         stateMachine.sendEvent(Events.LOAD);
-        assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.LOADED));
-        stateMachine.sendEvent(Events.TIMER);
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.LOADED));
         stateMachine.sendEvent(Events.CONFIRM_ERROR);
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.CONFIRM_ERROR));

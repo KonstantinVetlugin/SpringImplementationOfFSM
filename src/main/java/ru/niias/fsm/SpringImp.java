@@ -1,12 +1,29 @@
 package ru.niias.fsm;
 
 import org.springframework.beans.factory.support.StaticListableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.StateMachineBuilder;
 
+import java.awt.*;
 import java.util.EnumSet;
 
 public class SpringImp{
+    @Bean
+    public TimerAction timerAction() {
+        return new TimerAction();
+    }
+    public class TimerAction implements Action<States, Events> {
+
+        @Override
+        public void execute(StateContext<States, Events> context) {
+          System.out.println("Timer from " + context.getSource().getId());
+
+            // do something in every 1 sec
+        }
+    }
 
        public StateMachine<States, Events> buildMachine() throws Exception {
         StateMachineBuilder.Builder<States, Events> builder = StateMachineBuilder.builder();
@@ -31,10 +48,10 @@ public class SpringImp{
                 .target(States.FORM_UPDATED)
                 .event(Events.UPDATE)
                 .and()
-                .withExternal()
+                .withInternal()
                 .source(States.REQUEST)
-                .target(States.REQUEST)
-                .event(Events.TIMER)
+                .action(timerAction())
+                .timer(1000)
                 .and()
                 .withExternal()
                 .source(States.REQUEST)
@@ -42,10 +59,10 @@ public class SpringImp{
                 .event(Events.FINISH)
                 .and()
 
-                .withExternal()
+                .withInternal()
                 .source(States.FORM_UPDATED)
-                .target(States.FORM_UPDATED)
-                .event(Events.TIMER)
+                .action(timerAction())
+                .timer(1000)
                 .and()
                 .withExternal()
                 .source(States.FORM_UPDATED)
@@ -73,10 +90,10 @@ public class SpringImp{
                 .event(Events.FINISH)
                 .and()
 
-                .withExternal()
+                .withInternal()
                 .source(States.LOADED)
-                .target(States.LOADED)
-                .event(Events.TIMER)
+                .action(timerAction())
+                .timer(1000)
                 .and()
                 .withExternal()
                 .source(States.LOADED)
@@ -125,10 +142,10 @@ public class SpringImp{
                 .event(Events.UPDATE)
                 .and()
 
-                .withExternal()
+                .withInternal()
                 .source(States.CONFIRMED)
-                .target(States.CONFIRMED)
-                .event(Events.TIMER)
+                .action(timerAction())
+                .timer(1000)
                 .and()
                 .withExternal()
                 .source(States.CONFIRMED)
@@ -162,10 +179,10 @@ public class SpringImp{
                 .event(Events.UPDATE)
                 .and()
 
-                .withExternal()
+                .withInternal()
                 .source(States.FINISHED)
-                .target(States.FINISHED)
-                .event(Events.TIMER)
+                .action(timerAction())
+                .timer(1000)
                 .and()
                 .withExternal()
                 .source(States.FINISHED)
