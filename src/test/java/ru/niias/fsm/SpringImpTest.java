@@ -13,7 +13,7 @@ public class SpringImpTest
 {
     //Создание и тестирование конечного автомата
     @Test
-    public void testFDM() throws Exception{
+    public void testFSM() throws Exception{
         SpringImp si = new SpringImp();
         StateMachine<States,Events> stateMachine = si.buildMachine();
         stateMachine.start();

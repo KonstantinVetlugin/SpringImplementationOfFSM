@@ -7,7 +7,6 @@ import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.StateMachineBuilder;
 
-import java.awt.*;
 import java.util.EnumSet;
 
 public class SpringImp{
