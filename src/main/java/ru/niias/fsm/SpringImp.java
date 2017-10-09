@@ -19,6 +19,7 @@ public class SpringImp{
         @Override
         public void execute(StateContext<States, Events> context) {
           System.out.println("Timer from " + context.getSource().getId());
+          //textArea.appendText("Timer from " + context.getSource().getId());
 
             // do something in every 1 sec
         }
@@ -194,5 +195,9 @@ public class SpringImp{
                 .event(Events.UPDATE);
         builder.configureConfiguration().withConfiguration().beanFactory(new StaticListableBeanFactory());
         return builder.build();
+    }
+
+    static States getCurrentState(StateMachine<States,Events> sm){
+        return sm.getState().getId();
     }
 }
