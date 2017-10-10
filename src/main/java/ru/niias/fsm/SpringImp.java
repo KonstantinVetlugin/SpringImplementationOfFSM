@@ -10,7 +10,7 @@ import org.springframework.statemachine.config.StateMachineBuilder;
 import java.util.EnumSet;
 
 public class SpringImp{
-    @Bean
+
     public TimerAction timerAction() {
         return new TimerAction();
     }

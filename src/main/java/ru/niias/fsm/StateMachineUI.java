@@ -18,6 +18,7 @@ public class StateMachineUI extends Application {
 
     public static void main(String[] args) {
         launch(args);
+
     }
 
     @Override
@@ -27,14 +28,11 @@ public class StateMachineUI extends Application {
         //Инициализация конечного автомата
         SpringImp si = new SpringImp();
         final StateMachine<States,Events> stateMachine = si.buildMachine();
-        stateMachine.start();
-
-        textArea.setEditable(false);
-        textArea.appendText("State machine was started\n");
-        textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
 
 
         //Event buttons
+        Button startButton;
+        Button stopButton;
         Button requestButton;
         Button updateButton;
         Button loadButton;
@@ -43,6 +41,28 @@ public class StateMachineUI extends Application {
         Button confirmButton;
         Button confirmErrorButton;
         Button finishButton;
+
+        startButton = new Button();
+        startButton.setText("Start");
+        startButton.setPrefSize(170, 20);
+        startButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                stateMachine.start();
+                textArea.appendText("State machine was started\n");
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
+
+        stopButton = new Button();
+        stopButton.setText("Stop");
+        stopButton.setPrefSize(170, 20);
+        stopButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                stateMachine.stop();
+                textArea.appendText("State machine was stopped\n");
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
 
         requestButton = new Button();
         requestButton.setText("REQUEST");
@@ -156,7 +176,9 @@ public class StateMachineUI extends Application {
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.getChildren().addAll(
-                requestButton
+                startButton
+                , stopButton
+                , requestButton
                 , updateButton
                 , loadButton
                 , loadErrorButton
@@ -175,7 +197,8 @@ public class StateMachineUI extends Application {
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>(){
             public void handle(WindowEvent we){
-                stateMachine.stop();
+                //stateMachine.stop();
+                //System.out.println("Close");
                 //primaryStage.close();
             }
         });
