@@ -18,8 +18,7 @@ public class SpringImp{
 
         @Override
         public void execute(StateContext<States, Events> context) {
-          System.out.println("Timer from " + context.getSource().getId());
-          //textArea.appendText("Timer from " + context.getSource().getId());
+            StateMachineUI.textArea.appendText("Timer from " + context.getSource().getId() + "\n");
 
             // do something in every 1 sec
         }
@@ -196,7 +195,7 @@ public class SpringImp{
         builder.configureConfiguration().withConfiguration().beanFactory(new StaticListableBeanFactory());
         return builder.build();
     }
-
+    //Метод, воздращающий текущее состояние конечного автомата
     static States getCurrentState(StateMachine<States,Events> sm){
         return sm.getState().getId();
     }

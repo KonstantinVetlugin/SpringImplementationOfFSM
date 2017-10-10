@@ -9,16 +9,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.springframework.statemachine.StateMachine;
 
 public class StateMachineUI extends Application {
+    //Компонент для отображения состояний конечного автомата
+    final static TextArea textArea = new TextArea();
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("State machine");
 
         //Инициализация конечного автомата
@@ -26,10 +29,10 @@ public class StateMachineUI extends Application {
         final StateMachine<States,Events> stateMachine = si.buildMachine();
         stateMachine.start();
 
-        //Компонент для отображения состояний конечного автомата
-        final TextArea textArea = new TextArea();
-        textArea.appendText("State machine was started\n");
         textArea.setEditable(false);
+        textArea.appendText("State machine was started\n");
+        textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+
 
         //Event buttons
         Button requestButton;
@@ -48,7 +51,7 @@ public class StateMachineUI extends Application {
             public void handle(ActionEvent event) {
                 textArea.appendText("Events.REQUEST was occur\n");
                 stateMachine.sendEvent(Events.REQUEST);
-                textArea.appendText(SpringImp.getCurrentState(stateMachine).toString());
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
             }
         });
 
@@ -57,32 +60,79 @@ public class StateMachineUI extends Application {
         updateButton = new Button();
         updateButton.setText("UPDATE");
         updateButton.setPrefSize(170, 20);
+        updateButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                textArea.appendText("Events.UPDATE was occur\n");
+                stateMachine.sendEvent(Events.UPDATE);
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
 
         loadButton = new Button();
         loadButton.setText("LOAD");
         loadButton.setPrefSize(170, 20);
+        loadButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                textArea.appendText("Events.LOAD was occur\n");
+                stateMachine.sendEvent(Events.LOAD);
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
 
         loadErrorButton = new Button();
-
-        String loadErrorStr = "LOAD ERROR";
-        loadErrorButton.setText(loadErrorStr);
+        loadErrorButton.setText("LOAD ERROR");
         loadErrorButton.setPrefSize(170, 20);
+        loadErrorButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                textArea.appendText("Events.LOAD_ERROR was occur\n");
+                stateMachine.sendEvent(Events.LOAD_ERROR);
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
 
         loadAndConfirmButton = new Button();
         loadAndConfirmButton.setText("LOAD AND CONFIRM");
         loadAndConfirmButton.setPrefSize(170, 20);
+        loadAndConfirmButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                textArea.appendText("Events.LOAD_AND_CONFIRM was occur\n");
+                stateMachine.sendEvent(Events.LOAD_AND_CONFIRM);
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
 
         confirmButton = new Button();
         confirmButton.setText("CONFIRM");
         confirmButton.setPrefSize(170, 20);
+        confirmButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                textArea.appendText("Events.CONFIRM was occur\n");
+                stateMachine.sendEvent(Events.CONFIRM);
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
 
         confirmErrorButton = new Button();
         confirmErrorButton.setText("CONFIRM ERROR");
         confirmErrorButton.setPrefSize(170, 20);
+        confirmErrorButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                textArea.appendText("Events.CONFIRM_ERROR was occur\n");
+                stateMachine.sendEvent(Events.CONFIRM_ERROR);
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
 
         finishButton = new Button();
         finishButton.setText("FINISH");
         finishButton.setPrefSize(170, 20);
+        finishButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                textArea.appendText("Events.FINISH was occur\n");
+                stateMachine.sendEvent(Events.FINISH);
+                textArea.appendText("Current state of FSM is " + SpringImp.getCurrentState(stateMachine).toString() + "\n");
+            }
+        });
 
 
 
@@ -122,5 +172,13 @@ public class StateMachineUI extends Application {
         Scene scene = new Scene(gridPane, 500, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+            public void handle(WindowEvent we){
+                stateMachine.stop();
+                //primaryStage.close();
+            }
+        });
     }
+
 }
