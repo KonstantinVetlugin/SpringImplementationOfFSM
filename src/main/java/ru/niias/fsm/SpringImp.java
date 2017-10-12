@@ -18,7 +18,8 @@ public class SpringImp{
 
         @Override
         public void execute(StateContext<States, Events> context) {
-            StateMachineUI.textArea.appendText("Timer from " + context.getSource().getId() + "\n");
+            //StateMachineUI.textArea.appendText("Timer from " + context.getSource().getId() + "\n");
+            System.out.println("Timer from " + context.getSource().getId());
 
             // do something in every 1 sec
         }
@@ -47,22 +48,22 @@ public class SpringImp{
                 .target(States.FORM_UPDATED)
                 .event(Events.UPDATE)
                 .and()
-                .withInternal()
+                /*.withInternal()
                 .source(States.REQUEST)
                 .action(timerAction())
                 .timer(1000)
-                .and()
+                .and()*/
                 .withExternal()
                 .source(States.REQUEST)
                 .target(States.INIT)
                 .event(Events.FINISH)
                 .and()
 
-                .withInternal()
+                /*.withInternal()
                 .source(States.FORM_UPDATED)
                 .action(timerAction())
                 .timer(1000)
-                .and()
+                .and()*/
                 .withExternal()
                 .source(States.FORM_UPDATED)
                 .target(States.REQUEST)
@@ -89,11 +90,11 @@ public class SpringImp{
                 .event(Events.FINISH)
                 .and()
 
-                .withInternal()
+                /*.withInternal()
                 .source(States.LOADED)
                 .action(timerAction())
                 .timer(1000)
-                .and()
+                .and()*/
                 .withExternal()
                 .source(States.LOADED)
                 .target(States.REQUEST)
@@ -141,11 +142,11 @@ public class SpringImp{
                 .event(Events.UPDATE)
                 .and()
 
-                .withInternal()
+                /*.withInternal()
                 .source(States.CONFIRMED)
                 .action(timerAction())
                 .timer(1000)
-                .and()
+                .and()*/
                 .withExternal()
                 .source(States.CONFIRMED)
                 .target(States.REQUEST)
@@ -178,11 +179,11 @@ public class SpringImp{
                 .event(Events.UPDATE)
                 .and()
 
-                .withInternal()
+                /*.withInternal()
                 .source(States.FINISHED)
                 .action(timerAction())
                 .timer(1000)
-                .and()
+                .and()*/
                 .withExternal()
                 .source(States.FINISHED)
                 .target(States.REQUEST)
