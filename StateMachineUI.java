@@ -27,7 +27,7 @@ public class StateMachineUI extends Application {
 
         //Инициализация конечного автомата
         SpringImp si = new SpringImp();
-        final StateMachine<States,Events> stateMachine = si.buildMachine();
+
 
 
         //Event buttons

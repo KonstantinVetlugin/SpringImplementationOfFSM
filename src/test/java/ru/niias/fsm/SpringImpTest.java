@@ -12,7 +12,7 @@ public class SpringImpTest
     extends TestCase
 {
     //Создание и тестирование конечного автомата
-    @Test
+    /*@Test
     public void testFSM() throws Exception{
         SpringImp si = new SpringImp();
         StateMachine<States,Events> stateMachine = si.buildMachine();
@@ -54,5 +54,5 @@ public class SpringImpTest
         assertThat(stateMachine.getState().getIds(), containsInAnyOrder(States.REQUEST));
 
         System.out.println("Current state is " + stateMachine.getState().getId());
-    }
+    }*/
 }
